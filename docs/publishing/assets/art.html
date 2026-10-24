@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pip store art</title>
+<!-- Rendered to PNG by scripts/store-assets.ps1: ?kind=logo (300x300) or ?kind=promo (440x280). -->
+<style>
+  html,body{margin:0;overflow:hidden}
+  body{font-family:"Segoe UI",system-ui,sans-serif}
+  .logo{width:300px;height:300px;display:grid;place-items:center;background:linear-gradient(150deg,#F5F3FF,#DDD6FE)}
+  .logo .pip-wrap{width:230px;height:230px}
+  .promo{width:440px;height:280px;display:flex;align-items:center;gap:18px;padding:0 30px;box-sizing:border-box;
+    background:radial-gradient(circle at 25% 60%,#3B2F80 0,transparent 60%),linear-gradient(160deg,#2E2468,#15112B);color:#fff}
+  .promo .pip-wrap{width:150px;height:150px;flex:none}
+  .promo h1{margin:0;font-size:40px;font-weight:800;letter-spacing:-.5px}
+  .promo p{margin:6px 0 0;font-size:16px;line-height:1.35;color:#C9C2FC}
+  .promo b{color:#FDE68A;font-weight:700}
+</style>
+<script src="../../../extension/shared/pip-art.js"></script>
+</head>
+<body>
+<script>
+  const kind = new URLSearchParams(location.search).get('kind') || 'logo';
+  const style = document.createElement('style');
+  style.textContent = PipArt.CSS;
+  document.head.appendChild(style);
+  const pip = `<div class="pip-wrap" data-state="${kind === 'logo' ? 'idle' : 'ready'}" data-tod="day">${PipArt.SVG}</div>`;
+  document.body.innerHTML = kind === 'logo'
+    ? `<div class="logo">${pip}</div>`
+    : `<div class="promo">${pip}<div><h1>Pip</h1><p>Turns the page you're on into a <b>great AI prompt</b>.</p><p>You hit send.</p></div></div>`;
+</script>
+</body>
+</html>

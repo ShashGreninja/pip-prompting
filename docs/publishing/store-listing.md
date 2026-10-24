@@ -1,27 +1,68 @@
-# Store submission: Pip – prompt helper
+# Publishing Pip
 
-Ready-to-paste listing text for publishing Pip later. The same text works for:
+## Build the submission files
 
-- **Microsoft Edge Add-ons** ([Partner Center](https://partner.microsoft.com/dashboard/microsoftedge/overview)): registering as an Edge extension developer has had no fee. Users of any Chromium browser can install from there.
-- **Chrome Web Store** ([developer dashboard](https://chrome.google.com/webstore/devconsole)): one-time $5 registration fee.
+```bash
+npm run dev
+```
 
-## Package
+Leave that running, and in a second terminal:
 
-- Zip the *contents* of the `extension/` folder (so `manifest.json` is at the top level of the zip) and upload that.
-- Bump `version` in both `extension/manifest.json` and `package.json` for every new upload. `npm test` checks they match.
+```bash
+powershell -ExecutionPolicy Bypass -File scripts/store-assets.ps1
+```
 
-## Store listing tab
+This writes everything to `dist/store/` (git-ignored):
+
+| File | Use |
+|---|---|
+| `pip-prompting-<version>.zip` | The extension package (`manifest.json` at the top level) |
+| `logo.png` | Store logo, 300×300 |
+| `promo.png` | Small promotional tile, 440×280 |
+| `screenshot-1-result.png` … `screenshot-4-pairs.png` | Screenshots, 1280×800 |
+
+For every new upload, bump `version` in both `extension/manifest.json` and `package.json`. `npm test` checks that they match.
+
+## Microsoft Edge Add-ons (free)
+
+1. **Register (once).** Go to [Partner Center → Microsoft Edge](https://partner.microsoft.com/dashboard/microsoftedge/overview), sign in with a Microsoft account and register as an **individual** developer. Registration for Edge extensions has had no fee. Microsoft may ask you to verify your email or identity.
+2. **Create the extension.** Click **Create new extension**, then upload `dist/store/pip-prompting-<version>.zip` on the **Packages** page.
+3. **Availability:** Visibility **Public** (or **Hidden** to test with a direct link first), Markets: all.
+4. **Properties:**
+   - Category: **Developer tools**
+   - Privacy policy: **Yes**, URL: `https://shashgreninja.github.io/pip-prompting/publishing/privacy-policy.html`
+   - Website: `https://github.com/ShashGreninja/pip-prompting`
+   - Support contact: `https://github.com/ShashGreninja/pip-prompting/issues`
+   - Mature content: No
+5. **Store listings** (English):
+   - Description: the long description below
+   - Short description: the summary below
+   - Store logo: `logo.png`; Small promotional tile: `promo.png`; Screenshots: the four `screenshot-*.png`
+   - Search terms: `prompt`, `prompt engineering`, `ChatGPT`, `Claude`, `AI`, `developer`, `templates`
+6. **Submit.** Paste the **Notes for certification** below, then click **Publish**. Microsoft's review usually takes a few business days, sometimes longer for extensions that run on all sites. Partner Center emails you the result.
+
+**Notes for certification:**
+
+```
+Pip shows a small avatar on web pages. Clicking it opens a panel where the user picks a prompt template; Pip reads context from the current page only when a template is opened, shows the user what it will include, and writes a prompt into the page's chat box or the clipboard. It never submits anything. No account or login is needed to test: open any page (e.g. a GitHub pull request or API docs page), click the purple avatar in the bottom-right corner, pick a template and click "Write my prompt". All code is in the package; there is no remote code and no server.
+```
+
+## Chrome Web Store (one-time $5 fee)
+
+Same files and text. Use the [developer dashboard](https://chrome.google.com/webstore/devconsole), and see the permission justifications and data-usage answers below.
+
+---
+
+## Listing text
 
 **Name** (from the manifest): Pip – prompt helper
 
-**Summary** (from the manifest description, max 132 characters):
+**Short description / summary** (from the manifest description, max 132 characters):
 A sleepy little helper that turns what's on your page into a great prompt. Pip writes prompts; you send them.
 
-**Category:** Developer Tools
+**Category:** Developer tools
 
-**Language:** English
-
-**Description:**
+**Long description:**
 
 ```
 Stop writing prompts from scratch. Pip is a small, sleepy helper that lives in the corner of your browser and turns what's on your page into a clear, complete prompt for any AI chat.
@@ -51,19 +92,12 @@ PRIVATE BY DESIGN
 • Pip never sends a prompt or does the task for you. It only writes the prompt.
 • Hide Pip on any site, or everywhere, with one click.
 
+Open source: https://github.com/ShashGreninja/pip-prompting
+
 ChatGPT is a trademark of OpenAI. Claude is a trademark of Anthropic. Pip is not affiliated with either.
 ```
 
-**Graphic assets:**
-- Store icon: `extension/icons/icon128.png`
-- Screenshots (1280×800, at least one): render them from the dev harness, e.g. `http://localhost:5179/dev/harness.html?demo=result` (see the main README).
-- Small promo tile (440×280): still to be made.
-
-**Official URL / Homepage URL:** your site or GitHub repo (optional)
-
-**Support URL:** a GitHub issues page or support email (optional)
-
-## Privacy tab
+## Privacy answers
 
 **Single purpose:**
 Helps users write better prompts for AI chat tools by turning context from the page they're on into a prompt that they review and send themselves.
@@ -76,21 +110,8 @@ Helps users write better prompts for AI chat tools by turning context from the p
 | Host permission `<all_urls>` | Pip appears on any page the user visits so they can turn that page into a prompt. When the user asks, it reads the page's text, selection, console errors or styles to fill the prompt; captures a screenshot of the visible tab (captureVisibleTab) to attach to it; lists the titles and URLs of other open tabs for the "compare options" template; and fetches a GitHub pull request's .diff for the "review this PR" template. Nothing is sent anywhere except the user's own chat box or clipboard. |
 | Content script in the page's main world (`errors-main.js`) | Records the last 10 console errors on the page so the "Fix this console error" template can include them. They stay in memory on that page and are only read when the user opens that template. |
 
-**Remote code:** No, I am not using remote code. All JavaScript is included in the package.
+**Remote code:** None. All JavaScript is included in the package.
 
-**Data usage:** Leave every data type unchecked. Pip does not collect or transmit user data. Then tick all three certifications:
-- I do not sell or transfer user data to third parties, outside of the approved use cases.
-- I do not use or transfer user data for purposes that are unrelated to my item's single purpose.
-- I do not use or transfer user data to determine creditworthiness or for lending purposes.
+**Data usage:** Pip does not collect or transmit user data. Leave every data type unchecked, and confirm that data isn't sold, isn't used for unrelated purposes, and isn't used for creditworthiness.
 
-**Privacy policy URL:** host `docs/publishing/privacy-policy.html` publicly (e.g. GitHub Pages) and paste its URL here.
-
-## Distribution tab
-
-- Visibility: start with **Unlisted** to test the store build with a few people, then switch to **Public**.
-- Regions: all regions.
-
-## Review notes
-
-- Broad host permissions (`<all_urls>`) usually trigger an in-depth review, which can take a few days to a few weeks. The justifications above explain why each one is needed.
-- Before submitting, fill in the contact email placeholder in `docs/publishing/privacy-policy.html`.
+**Privacy policy:** `https://shashgreninja.github.io/pip-prompting/publishing/privacy-policy.html` (source: `docs/publishing/privacy-policy.html`, served by GitHub Pages from `docs/`).

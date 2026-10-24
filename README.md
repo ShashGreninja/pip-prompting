@@ -66,7 +66,8 @@ extension/                 the extension itself: load this folder in Chrome
 dev/                       harness.html runs the content scripts on a normal page with stubbed chrome.* APIs
 scripts/check.js           offline checks: manifest references, syntax, every template
 scripts/screenshots.ps1    renders docs/images/*.png from the harness with headless Chrome
-docs/                      publishing notes, privacy policy, the original prototype
+scripts/store-assets.ps1   builds the store zip, logo, promo tile and screenshots into dist/store/
+docs/                      publishing guide, privacy policy (served by GitHub Pages), store art, the original prototype
 ```
 
 There's no build step and no dependencies. The scripts share a few globals (`PipContext`, `PipTemplates`, `PipGames`, …), and the manifest lists them in load order.
@@ -100,7 +101,7 @@ Pip reads a page only when you open a template, shows you what it will include, 
 
 ## Publishing
 
-[docs/publishing/store-listing.md](docs/publishing/store-listing.md) has ready-to-paste listing text and permission justifications for the Microsoft Edge Add-ons store (free to register) or the Chrome Web Store (one-time $5 fee).
+`scripts/store-assets.ps1` builds the upload zip, store logo, promo tile and screenshots into `dist/store/`. [docs/publishing/store-listing.md](docs/publishing/store-listing.md) walks through submitting to Microsoft Edge Add-ons (free to register) or the Chrome Web Store (one-time $5 fee), with ready-to-paste listing text and permission justifications.
 
 ## License
 
