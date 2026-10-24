@@ -1,0 +1,14 @@
+{
+  "name": "pip-prompting",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Pip, a sleepy browser helper that turns the page you're on into a great AI prompt. It writes prompts; you send them.",
+  "license": "MIT",
+  "scripts": {
+    "dev": "node dev/serve.js",
+    "test": "node scripts/check.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

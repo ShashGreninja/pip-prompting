@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pip settings</title>
+<link rel="stylesheet" href="options.css">
+</head>
+<body>
+<main>
+  <h1>Pip settings</h1>
+  <p class="muted">Saved automatically. <span id="saved" class="saved" aria-live="polite"></span></p>
+
+  <section>
+    <h2>Your profile</h2>
+    <p class="muted">Pip adds these to prompts so you never type them again. They stay in your browser's sync storage.</p>
+    <label>Your stack<input id="stack" placeholder="e.g. Next.js 15, TypeScript, Tailwind, Postgres"></label>
+    <label>How you like to work<input id="preferences" placeholder="e.g. small diffs, explain briefly, no new dependencies"></label>
+    <label>Test framework<input id="test_framework" placeholder="e.g. Vitest + Testing Library"></label>
+  </section>
+
+  <section>
+    <h2>Pip</h2>
+    <label class="check"><input type="checkbox" id="showPip"> Show Pip in the corner of pages</label>
+    <label>Fall asleep after
+      <select id="sleepAfter">
+        <option value="10">10 seconds</option><option value="20">20 seconds</option>
+        <option value="60">1 minute</option><option value="300">5 minutes</option>
+      </select>
+    </label>
+    <p class="muted">Shortcut to wake Pip (works even when hidden): <kbd id="shortcut">Alt+Shift+P</kbd>.
+      Change it at <code>chrome://extensions/shortcuts</code>.</p>
+  </section>
+
+  <section>
+    <h2>Hidden on these sites</h2>
+    <ul id="sites"></ul>
+    <p class="muted" id="noSites">None. Use "Hide Pip on this site" in Pip's panel or the toolbar popup.</p>
+  </section>
+</main>
+<script src="../shared/settings.js"></script>
+<script src="options.js"></script>
+</body>
+</html>

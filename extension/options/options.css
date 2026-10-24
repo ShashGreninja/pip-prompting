@@ -1,0 +1,18 @@
+:root{--bg:#f6f5fa;--card:#fff;--ink:#1f1d2b;--muted:#6b6880;--line:#e6e3ef;--accent:#7464E6}
+@media (prefers-color-scheme:dark){:root{--bg:#121118;--card:#1d1b26;--ink:#ecebf3;--muted:#a19eb5;--line:#322f40;--accent:#9d90fa}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;padding:24px 16px}
+main{max-width:620px;margin:0 auto}
+h1{font-size:22px;margin:0 0 4px}
+h2{font-size:15px;margin:0 0 6px}
+.muted{color:var(--muted);margin:4px 0 10px}
+.saved{color:var(--accent)}
+section{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-top:16px}
+label{display:block;margin-top:12px;font-weight:500}
+label input:not([type]),label select{display:block;width:100%;margin-top:4px;font:inherit;color:inherit;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+label.check{display:flex;gap:8px;align-items:center}
+input[type=checkbox]{accent-color:var(--accent);width:16px;height:16px}
+kbd,code{font:12px ui-monospace,Consolas,monospace;border:1px solid var(--line);border-radius:4px;padding:1px 5px}
+ul{list-style:none;padding:0;margin:0}
+li{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--line)}
+li button{font:inherit;border:1px solid var(--line);background:none;color:inherit;border-radius:6px;padding:2px 10px;cursor:pointer}

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Payments API reference – docs harness</title>
+<style>
+  body{font:15px/1.6 Georgia,serif;max-width:720px;margin:32px auto;padding:0 16px;color:#222}
+  h1{font-family:Inter,system-ui,sans-serif;font-size:34px}
+  pre{background:#f4f4f6;padding:12px;border-radius:6px}
+  textarea{width:100%;height:80px;font:inherit;border:1px solid #ccc;border-radius:10px;padding:10px}
+</style>
+<!-- Stub of the chrome.* APIs so the content scripts run on a normal page. -->
+<script src="../extension/shared/frontmatter.js"></script>
+<script>
+  // ?handoff simulates arriving on Claude with a prompt waiting; the chat box shows up after a fake 5s sign-in.
+  const HANDOFF_TEST = location.search.includes('handoff');
+  // Dev only: keep Pip's closed shadow root reachable for inspection.
+  const attach = Element.prototype.attachShadow;
+  Element.prototype.attachShadow = function (opts) { return (window.__pipShadow = attach.call(this, { ...opts, mode: 'open' })); };
+  const store = { showPip: true, hiddenSites: [], sleepAfter: 10, profile: { stack: 'Next.js 15, TypeScript, Tailwind', preferences: 'small diffs', test_framework: 'Vitest' } };
+  window.chrome = {
+    storage: {
+      sync: {
+        get: async defaults => ({ ...defaults, ...structuredClone(store) }),
+        set: async patch => Object.assign(store, patch)
+      },
+      local: {
+        _data: {},
+        get: async defaults => ({ ...defaults, ...structuredClone(chrome.storage.local._data) }),
+        set: async patch => Object.assign(chrome.storage.local._data, structuredClone(patch))
+      },
+      onChanged: { addListener() {} }
+    },
+    runtime: {
+      onMessage: { addListener() {} },
+      sendMessage: async msg => {
+        try {
+          if (msg.type === 'templates') {
+            const files = await (await fetch('../extension/templates/index.json')).json();
+            const data = await Promise.all(files.map(async f => PipFrontmatter.parse(await (await fetch('../extension/templates/' + f)).text())));
+            return { ok: true, data };
+          }
+          if (msg.type === 'tabs') return { ok: true, data: [{ title: 'Stripe docs', url: 'https://stripe.com/docs' }] };
+          if (msg.type === 'handoff') { window.__lastHandoff = msg; return { ok: true, data: true }; }
+          if (msg.type === 'claim-handoff') return { ok: true, data: HANDOFF_TEST ? 'Explain the code below.\n\nUse plain language.' : null };
+          if (msg.type === 'handoff-done') { window.__handoffDone = true; return { ok: true, data: true }; }
+          return { ok: false, error: 'Not available in the harness' };
+        } catch (e) { return { ok: false, error: e.message }; }
+      }
+    }
+  };
+</script>
+<script src="../extension/content/errors-main.js"></script>
+</head>
+<body>
+<main>
+  <h1>Payments API reference</h1>
+  <p>Create a payment with <code>POST /v1/payments</code>. Authenticate with a bearer token in the <code>Authorization</code> header.</p>
+  <pre>curl https://api.example.dev/v1/payments \
+  -H "Authorization: Bearer $KEY" \
+  -d amount=2000 -d currency=usd</pre>
+  <p>Responses are paginated with <code>starting_after</code>. Rate limit: 100 requests per second.</p>
+</main>
+<p><label>AI chat box (stand-in)<br><textarea id="chat" placeholder="Message the AI">make the payment thing work better</textarea></label></p>
+<script>console.error(new TypeError("Cannot read properties of undefined (reading 'amount')"));</script>
+<script src="../extension/shared/settings.js"></script>
+<script src="../extension/shared/pip-art.js"></script>
+<script src="../extension/content/context.js"></script>
+<script>
+  if (HANDOFF_TEST) {
+    PipContext.chatSite = () => 'Claude';
+    setTimeout(() => document.body.insertAdjacentHTML('beforeend',
+      '<div class="ProseMirror" contenteditable="true" style="border:1px solid #aaa;min-height:60px;padding:8px"></div>'), 5000);
+  }
+</script>
+<script src="../extension/content/templates.js"></script>
+<script src="../extension/content/games/kit.js"></script>
+<script src="../extension/content/games/spark-catch.js"></script>
+<script src="../extension/content/games/vague-pop.js"></script>
+<script src="../extension/content/games/pip-pairs.js"></script>
+<script src="../extension/content/games/index.js"></script>
+<script src="../extension/content/panel-styles.js"></script>
+<script src="../extension/content/pip.js"></script>
+<script>
+  // ?demo=home|result|draft|pairs opens Pip at that screen, for screenshots.
+  const demo = new URLSearchParams(location.search).get('demo');
+  if (demo) (async () => {
+    const s = window.__pipShadow;
+    const wait = ms => new Promise(r => setTimeout(r, ms));
+    const $ = sel => s.querySelector(sel);
+    await wait(200);
+    $('.pip-wrap').click();
+    await wait(1200);
+    if (demo === 'result') {
+      $('[data-id="fix-console-error"]').click(); await wait(800);
+      $('[data-ask="doing"]').value = 'clicking Pay on checkout';
+      $('[data-ask="expected"]').value = 'the payment goes through';
+      $('[data-act="write"]').click(); await wait(600);
+    } else if (demo === 'draft') {
+      $('[data-act="draft"]').click(); await wait(400);
+    } else if (demo === 'pairs') {
+      $('[data-act="games"]').click(); await wait(100);
+      $('[data-game="pairs"]').click(); await wait(200);
+      const cards = [...s.querySelectorAll('.g-card')];
+      const byMood = {};
+      cards.forEach((c, i) => (byMood[c.querySelector('small').textContent] ||= []).push(i));
+      const pairs = Object.values(byMood);
+      for (const [a, b] of pairs.slice(0, 3)) { cards[a].click(); cards[b].click(); await wait(500); }
+      cards[pairs[3][0]].click(); await wait(600);
+    }
+  })();
+</script>
+</body>
+</html>

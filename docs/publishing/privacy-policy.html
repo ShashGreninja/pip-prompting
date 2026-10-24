@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pip – prompt helper: Privacy policy</title>
+<style>
+  body{max-width:720px;margin:40px auto;padding:0 16px;font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif;color:#1f1d2b}
+  h1{font-size:26px} h2{font-size:18px;margin-top:28px}
+  code{background:#f3f1fa;padding:1px 5px;border-radius:4px}
+</style>
+</head>
+<body>
+<h1>Pip – prompt helper: Privacy policy</h1>
+<p>Last updated: October 24, 2026</p>
+
+<p>Pip is a browser extension that helps you write prompts for AI chat tools using context from the page you're on. Pip has no servers and no accounts. It does not collect, sell or share your data.</p>
+
+<h2>What Pip reads, and when</h2>
+<p>Pip reads page content only when you open its panel and choose a template. Depending on the template, that can be:</p>
+<ul>
+  <li>the text you selected, or the page's main text;</li>
+  <li>the page's URL and title;</li>
+  <li>console errors recorded on the page (the last 10, kept in memory on that page only);</li>
+  <li>the page's fonts and colors;</li>
+  <li>a screenshot of the visible part of the page;</li>
+  <li>the titles and URLs of your other open tabs;</li>
+  <li>the diff of a GitHub pull request you're viewing.</li>
+</ul>
+<p>Before writing the prompt, Pip shows what it will include, and you can remove any of it. The finished prompt is only placed in a chat box on your screen or copied to your clipboard. Pip never sends a prompt anywhere, and never presses Enter for you.</p>
+
+<h2>What Pip stores</h2>
+<ul>
+  <li><strong>Settings and profile</strong> (whether Pip is shown, hidden sites, sleep delay, and the stack, preferences and test framework you choose to save) are kept in your browser's extension storage. If Chrome sync is on, Chrome syncs them across your signed-in browsers.</li>
+  <li><strong>Game high scores</strong> are kept in local extension storage.</li>
+  <li><strong>"Open in ChatGPT / Claude":</strong> while the new tab loads (15 minutes at most), the prompt you chose to send there is kept in local extension storage. It's deleted as soon as it's pasted or the tab is closed.</li>
+</ul>
+<p>None of this leaves your browser except through Chrome's own sync of your settings.</p>
+
+<h2>Network requests</h2>
+<p>Pip makes one kind of network request: when you use the "Review this pull request" template on a GitHub pull request, it fetches that pull request's <code>.diff</code> file from GitHub. "Open in ChatGPT / Claude" opens those sites in a new tab, just as clicking a link would. Pip has no analytics, tracking or third-party services.</p>
+
+<h2>Removing your data</h2>
+<p>Uninstalling Pip deletes everything it stored. You can also clear your profile anytime in Pip's settings.</p>
+
+<h2>Contact</h2>
+<p>Questions about this policy: [your contact email]</p>
+</body>
+</html>

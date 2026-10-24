@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pip</title>
+<link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <div class="avatar" id="avatar"></div>
+    <div>
+      <h1>Pip</h1>
+      <p class="muted">Writes prompts. You send them.</p>
+    </div>
+  </header>
+
+  <label class="row"><span>Show Pip on pages</span><input type="checkbox" id="show" role="switch"></label>
+  <label class="row"><span>Hide on <b id="host">this site</b></span><input type="checkbox" id="hideHere" role="switch"></label>
+
+  <button class="primary" id="wake">Wake Pip on this tab</button>
+  <p class="muted small">Shortcut: <kbd id="shortcut">Alt+Shift+P</kbd> works even when Pip is hidden.</p>
+
+  <footer><a href="#" id="settings">Settings and your profile</a></footer>
+
+  <script src="../shared/settings.js"></script>
+  <script src="../shared/pip-art.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
